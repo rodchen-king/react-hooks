@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from 'react';
 
-class Example extends React.Component {
-  componentDidMount() {
+function Example () {
+  // hooks
+  useEffect(() => {
+    // didmount
     setTimeout(() => {
       console.log('print log after 1s!');
     }, 1000);
-    window.addEventListener('load', this.loadHandle);
-  }
+    window.addEventListener('load', loadHandle);
 
-  componentWillUnmount() {
-    window.removeEventListener('load', this.loadHandle);
-  }
+    // willunmont
+    return () => {
+      window.removeEventListener('load', loadHandle);
+    }
+  })
 
-  loadHandle() {
+  const loadHandle = () => {
     console.log('load document')
   }
 
-  render() {
-    return (
-      <h3>useEffect</h3>
-    )
-  }
+  return (
+    <h3>useEffect</h3>
+  )
 }
 
 export default Example;

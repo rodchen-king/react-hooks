@@ -3,30 +3,23 @@ import React, { useState, useEffect } from 'react';
 function Example () {
   // hooks
   const [count, setCount] = useState(0);
-  useEffect(() => {
-    // didmount
-    setTimeout(() => {
-      console.log('print log after 1s!');
-    }, 1000);
-    window.addEventListener('load', loadHandle);
+  const [name, setName] = useState('rodchen');
 
-    // willunmont
-    return () => {
-      console.log('清除')
-      window.removeEventListener('load', loadHandle);
-    }
+  useEffect(() => {
+    console.log('更新state!');
   })
 
-  const loadHandle = () => {
-    console.log('load document')
-  }
 
   return (
     <div>
       <h3>useEffect</h3>
       <p>You clicked {count} times</p>
+      <p>{name}</p>
       <button onClick={() => setCount(count + 1)}>
         Click me
+      </button>
+      <button onClick={() => setName(name + ' - ')}>
+        更新姓名
       </button>
     </div>
   )

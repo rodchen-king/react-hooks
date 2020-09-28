@@ -1,20 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
-function Example() {
-  const [count, setCount] = useState(0);
+class Example extends React.Component {
+  componentDidMount() {
+    setTimeout(() => {
+      console.log('print log after 1s!');
+    }, 1000);
+    window.addEventListener('load', this.loadHandle);
+  }
 
-  useEffect(() => {
-    document.title = `You clicked ${count} times`;
-  });
+  componentWillUnmount() {
+    window.removeEventListener('load', this.loadHandle);
+  }
 
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-    </div>
-  );
+  loadHandle() {
+    console.log('load document')
+  }
+
+  render() {
+    return (
+      <h3>useEffect</h3>
+    )
+  }
 }
 
 export default Example;

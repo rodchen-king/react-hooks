@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 function Example () {
   // hooks
+  const [count, setCount] = useState(0);
   useEffect(() => {
     // didmount
     setTimeout(() => {
@@ -11,6 +12,7 @@ function Example () {
 
     // willunmont
     return () => {
+      console.log('清除')
       window.removeEventListener('load', loadHandle);
     }
   })
@@ -20,7 +22,13 @@ function Example () {
   }
 
   return (
-    <h3>useEffect</h3>
+    <div>
+      <h3>useEffect</h3>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
+    </div>
   )
 }
 

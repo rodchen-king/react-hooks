@@ -1,14 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+let memoizedState = []; // hooks 存放在这个数组
+let cursor = 0; // 当前 memoizedState 下标
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+function useState(initialValue) {
+  const currentCursor = cursor;
+  cursor++;
+  memoizedState[currentCursor] = memoizedState[currentCursor] || initialValue;
+
+  debugger
+  function setState(newState) {
+    memoizedState[currentCursor] = newState;
+    cursor = 0;
+    render();
+  }
+  return [memoizedState[currentCursor], setState]; // 返回当前 state，并把 cursor 加 1
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('rodchen');
+
+  return (
+    <div>
+      <div>{count}</div>
+      <div>{name}</div>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        点击
+      </button>
+      <button onClick={() => setName(name + ' 11 ')}>
+        重置姓名
+      </button>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+
+function render() {
+  ReactDOM.render(<App />, rootElement);
+}
+render();
+

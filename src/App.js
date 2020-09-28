@@ -5,8 +5,6 @@ function Example() {
   const [count, setCount] = useState(0);
   const [name, setName] = useState('rodchen');
 
-  
-
   return (
     <div>
       <p>your name: { name }</p>

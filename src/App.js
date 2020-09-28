@@ -1,14 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 function Example () {
   // hooks
   const [count, setCount] = useState(0);
   const [name, setName] = useState('rodchen');
 
-  useEffect(() => {
-    console.log('更新state!');
-  }, [name])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const useDidMount = fn => useEffect(() => fn && fn(), []);
 
+  useDidMount(() => {
+    console.log('monted!');
+  })
+
+  const useDidUpdate = (fn, conditions) => {
+    const didMoutRef = useRef(false);
+    useEffect(() => {
+      if (!didMoutRef.current) {
+        didMoutRef.current = true;
+        return;
+      }
+      // Cleanup effects when fn returns a function
+      return fn && fn();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, conditions);
+  };
+
+  useDidUpdate(() => {
+    console.log('updated');
+  },[name])
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const useWillUnmount = fn => useEffect(() => () => fn && fn(), []);
+
+  useWillUnmount(() => {
+    console.log('willUnmont');
+  })
 
   return (
     <div>

@@ -12,7 +12,7 @@ function Example() {
       <button onClick={() => setCount(count + 1)}>
         Click me
       </button>
-      <button onClick={() => setName('rod chen')}>
+      <button onClick={() => setName(name + ' 11 ')}>
         重置姓名
       </button>
     </div>

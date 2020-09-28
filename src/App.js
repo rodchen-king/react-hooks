@@ -7,7 +7,7 @@ function Example () {
 
   useEffect(() => {
     console.log('更新state!');
-  })
+  }, [name])
 
 
   return (

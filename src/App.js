@@ -1,71 +1,44 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+/*
+ * @Description: 
+ * @Author: rodchen
+ * @Date: 2021-10-22 10:01:27
+ * @LastEditTime: 2021-10-22 10:03:59
+ * @LastEditors: rodchen
+ */
+import React, { useState, useEffect, useRef, useContext, useReducer } from 'react';
 
-const ThemeContext = React.createContext({ theme: "初始值", theme1: "初始值1" });
-const { Provider, Consumer } = ThemeContext
+const initialState = {count: 0};
 
-function Example () {
-  // hooks
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState('rodchen');
+function reducer(state, action) {
+  debugger
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
 
-  const theme = useContext(ThemeContext);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const useDidMount = fn => useEffect(() => fn && fn(), []);
-
-  useDidMount(() => {
-    console.log('monted!');
-  })
-
-  const useDidUpdate = (fn, conditions) => {
-    const didMoutRef = useRef(false);
-    useEffect(() => {
-      if (!didMoutRef.current) {
-        didMoutRef.current = true;
-        return;
-      }
-      // Cleanup effects when fn returns a function
-      return fn && fn();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, conditions);
-  };
-
-  useDidUpdate(() => {
-    console.log('updated');
-  },[name])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const useWillUnmount = fn => useEffect(() => () => fn && fn(), []);
-
-  useWillUnmount(() => {
-    console.log('willUnmont');
-  })
-
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div>
-      <h3>useEffect</h3>
-      <p>You clicked {count} times</p>
-      <p>{theme.theme}</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
-      <button onClick={() => setName(name + ' - ')}>
-        更新姓名
-      </button>
-    </div>
-  )
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+    </>
+  );
 }
 
 function App () {
-  const theme = useContext(ThemeContext);
-
   return (
     <>
-      <Provider value={{ theme: "theme", theme1: "theme1" }}>
-        <Example />
-      </Provider>
       <span>
-        <button>{theme.theme}</button>
+        <button>
+          <Counter/>
+        </button>
       </span>
     </>
   )
